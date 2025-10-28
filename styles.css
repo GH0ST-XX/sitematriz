@@ -1,0 +1,687 @@
+/* --- 1. Configurações Globais e Fontes --- */
+:root {
+    --font-heading: 'Merriweather', serif;
+    --font-body: 'Roboto', sans-serif;
+    --color-primary: #c08c4a; /* Tom de ouro velho, mais sóbrio */
+    --color-primary-dark: #a16e2c;
+    --color-secondary: #005f73;
+    --color-dark: #1a1a1a;
+    --color-light: #fdfdfd;
+    --color-text: #333;
+    --color-text-light: #f1f1f1;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-dark: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Espaço para a navbar fixa */
+}
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    color: var(--color-text);
+    background-color: #f9f9f9;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased; /* Deixa a fonte mais suave */
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-top: 0;
+}
+
+h1 { font-size: 3.8rem; line-height: 1.1; }
+h2 { font-size: 2.8rem; text-align: center; margin-bottom: 20px; }
+h3 { font-size: 1.5rem; }
+
+p.section-intro {
+    font-size: 1.15rem;
+    color: #555;
+    text-align: center;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+}
+
+/* --- 2. Barra de Navegação --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent; /* Começa transparente */
+    z-index: 1000;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    padding: 15px 0;
+}
+
+.navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.98); /* Fica branco ao rolar */
+    box-shadow: var(--shadow-dark);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-light);
+    text-decoration: none;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.navbar.scrolled .nav-logo {
+    color: var(--color-dark);
+    text-shadow: none;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    margin-left: 30px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--color-light);
+    font-weight: 500;
+    transition: color 0.3s;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.navbar.scrolled .nav-menu a {
+    color: var(--color-dark);
+    text-shadow: none;
+}
+
+/* Efeito de sublinhado na navbar */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+.nav-menu a:hover {
+    color: var(--color-primary);
+}
+
+.navbar.scrolled .nav-menu a:hover {
+    color: var(--color-primary);
+}
+
+
+/* --- 3. Botões --- */
+.btn {
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid transparent;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-light);
+    border-color: var(--color-light);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    transform: translateY(-3px);
+}
+
+.btn-large {
+    font-size: 1.1rem;
+    padding: 15px 35px;
+}
+
+/* --- 4. Seção Hero (Banner) --- */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--color-light);
+    overflow: hidden; /* Para o efeito Ken Burns */
+}
+
+/* Efeito de Zoom (Ken Burns) */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1d/Igreja_Matriz_de_S%C3%A3o_Gon%C3%A7alo%2C_Localizada_na_Regi%C3%A3o_Central_do_Munic%C3%ADpio_de_S%C3%A3o_Gon%C3%A7alo_RJ.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito parallax */
+    animation: kenburns 20s infinite;
+    z-index: 1;
+}
+
+@keyframes kenburns {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Overlay escuro */
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: var(--color-light);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero .subtitle {
+    font-size: 2rem;
+    font-family: var(--font-body);
+    font-weight: 300;
+    color: var(--color-light);
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.hero .quote {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #ddd;
+    margin-bottom: 5px;
+}
+.hero cite {
+    display: block;
+    margin-bottom: 40px;
+    color: #ccc;
+}
+
+.hero-buttons .btn {
+    margin: 10px;
+}
+
+/* --- 5. Seções de Conteúdo --- */
+.content-section {
+    padding: 100px 20px;
+}
+
+.section-dark {
+    background-color: var(--color-dark);
+    padding: 100px 20px;
+}
+
+/* CORREÇÃO: Garante que todo texto na seção escura seja claro */
+.section-dark h2,
+.section-dark h3,
+.section-dark p,
+.section-dark li,
+.section-dark cite {
+    color: var(--color-text-light) !important;
+}
+
+.section-dark p.section-intro {
+    color: #bbb !important;
+}
+
+.section-cta {
+    background-color: var(--color-secondary);
+    color: var(--color-light);
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-cta h2,
+.section-cta p {
+    color: var(--color-light);
+}
+
+.cta-buttons {
+    margin-top: 40px;
+}
+.cta-buttons .btn {
+    margin: 10px;
+}
+
+/* --- 6. Linha do Tempo (Timeline) - CORRIGIDA e MELHORADA --- */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+/* A linha central */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--color-primary);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+    z-index: 1;
+}
+
+/* O "container" de cada item */
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+/* Posiciona os itens na esquerda e direita */
+.timeline-container.left {
+    left: 0;
+}
+
+.timeline-container.right {
+    left: 50%;
+}
+
+/* O ponto (círculo) na linha do tempo */
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: var(--color-light);
+    border: 4px solid var(--color-primary);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 2; /* Fica acima da linha */
+}
+
+/* Corrige a posição do ponto para os itens da direita */
+.timeline-container.right::after {
+    left: -10px;
+}
+
+/* O conteúdo (caixa de texto) */
+.timeline-content {
+    padding: 20px 30px;
+    background-color: var(--color-light);
+    position: relative;
+    border-radius: 8px;
+    box-shadow: var(--shadow-dark);
+    z-index: 2;
+}
+
+/* CORREÇÃO: Alinhamento do texto */
+.timeline-container.left .timeline-content {
+    text-align: right;
+}
+
+.timeline-container.right .timeline-content {
+    text-align: left;
+}
+
+
+/* --- 7. Cards de Problemas --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.card {
+    background: #2a2a2a; /* Fundo do card mais claro que a seção */
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.card-icon {
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: var(--color-primary);
+}
+
+/* --- 8. Caixas de Citação (Quote Box) --- */
+.quote-box {
+    background: #2a2a2a;
+    border-left: 5px solid var(--color-primary);
+    padding: 30px;
+    font-style: italic;
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.quote-box cite {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--color-primary);
+}
+
+/* --- 9. Seção Solução --- */
+.solution-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.solution-text ul {
+    list-style: none;
+    padding: 0;
+}
+
+.solution-text li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.solution-text li i {
+    color: var(--color-secondary);
+    margin-right: 15px;
+    font-size: 1.5rem;
+}
+
+.solution-quote {
+    background: #f0f2f5;
+    border-left: 5px solid var(--color-secondary);
+    padding: 30px;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+.solution-quote cite {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--color-secondary);
+}
+
+/* --- 10. Modal de Doação --- */
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--color-light);
+    margin: auto;
+    padding: 40px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--color-dark);
+}
+
+.donation-info {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+.donation-info:last-child { border-bottom: none; padding-bottom: 0; }
+
+.donation-info h3 {
+    color: var(--color-secondary);
+    margin-bottom: 15px;
+}
+.donation-info h3 i { margin-right: 10px; }
+.donation-info p { margin-bottom: 10px; }
+
+.copy-field {
+    display: flex;
+}
+
+.copy-field input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    background: #f9f9f9;
+}
+
+.btn-copy {
+    padding: 10px 15px;
+    border: none;
+    background: var(--color-secondary);
+    color: white;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    transition: background 0.3s;
+    font-size: 0.9rem;
+}
+
+.btn-copy:hover {
+    background: #004c5c;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+.btn-whatsapp:hover {
+    background: #1eab53;
+    transform: translateY(-2px);
+}
+
+/* --- 11. Rodapé --- */
+.footer {
+    background: var(--color-dark);
+    color: #aaa;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.footer .small-text {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 15px;
+}
+
+/* --- 12. Animação de Fade-in-Up --- */
+.fade-in, .fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.is-visible, .fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 13. Responsividade --- */
+@media (max-width: 900px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .solution-grid {
+        grid-template-columns: 1fr;
+    }
+    .solution-quote {
+        margin-top: 30px;
+    }
+
+    /* Timeline vira coluna única */
+    .timeline::after {
+        left: 30px;
+        margin-left: 0;
+    }
+
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 20px;
+    }
+    
+    .timeline-container.left,
+    .timeline-container.right {
+        left: 0;
+    }
+
+    .timeline-container::after {
+        left: 21px; /* Posiciona o ponto na linha da esquerda */
+    }
+    
+    .timeline-container.right::after {
+        left: 21px; /* Idem */
+    }
+
+    /* CORREÇÃO: Força todo o texto a alinhar à esquerda */
+    .timeline-container.left .timeline-content,
+    .timeline-container.right .timeline-content {
+        text-align: left !important;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2.8rem; }
+    .hero h1 { font-size: 3rem; }
+    .hero .subtitle { font-size: 1.5rem; }
+    h2 { font-size: 2.2rem; }
+    
+    /* Esconde o menu de links e deixa só o botão */
+    .nav-menu {
+        display: none;
+    }
+    .navbar .btn {
+        font-size: 0.9rem;
+        padding: 8px 18px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-buttons .btn {
+        width: 80%;
+        margin: 8px 0;
+    }
+
+    .cta-buttons .btn {
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+    }
+}
